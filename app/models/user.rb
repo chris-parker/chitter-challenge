@@ -18,6 +18,8 @@ class User
   property :email, Text, :lazy => false, :required => true, :format => :email_address
   property :password_digest, Text, :lazy => false
 
+  has n, :peeps, through: Resource
+
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)

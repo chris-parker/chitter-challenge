@@ -45,7 +45,7 @@ class Chitter < Sinatra::Base
       redirect to('/')
     else
       flash.now[:errors] = ['The username or password is incorrect']
-      erb :'newsession'
+      erb(:newsession)
     end
   end
 
@@ -53,6 +53,21 @@ class Chitter < Sinatra::Base
     session[:user_id] = nil
     flash.keep[:notice] = 'Signed out!'
     redirect to '/'
+  end
+
+  get '/new/peep' do
+    @title = "Peep!"
+    erb(:newpeep)
+  end
+
+  post '/new/peep' do
+    @peep = Peep.new(content: params[:peep])
+    redirect '/peeps'
+  end
+
+  get '/peeps' do
+    @peeps = Peep.all
+    erb(:peeps)
   end
 
   helpers do
